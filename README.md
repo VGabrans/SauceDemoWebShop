@@ -173,7 +173,7 @@ brew install maven
 Clone repository
 
 ````s
-
+https://github.com/VGabrans/SauceDemoWebShop.git
 ````
 </li>
 <li>
