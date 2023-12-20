@@ -30,6 +30,19 @@ public class PageAutorizationText {
 
     public static final String ORDER_DISP = "Your order has been dispatched, and will arrive just as fast as the pony can get there!";
 
+    //Item Price
+    public static final String PRICE1 = "$29.99";
+    public static final String PRICE2 = "$9.99";
+    public static final String PRICE3 = "$15.99";
+    public static final String PRICE4 = "$49.99";
+    public static final String PRICE5 = "$7.99";
+    public static final String PRICE6 = "$15.99";
+
+    //Total Item Price + Tax + SummaryTotal
+    public static final String ITEM_TOTAL = "Item total: $129.94";
+    public static final String ITEM_TAX = "Tax: $10.40";
+    public static final String ITEM_SUMMARY_TOTAL = "Total: $140.34";
+
 
 
 

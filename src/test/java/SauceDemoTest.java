@@ -1,4 +1,6 @@
+import com.fasterxml.jackson.databind.jsontype.impl.AsExistingPropertyTypeSerializer;
 import com.github.javafaker.Faker;
+import lv.acodemy.utils.page_objects.Price;
 import lv.workathome.utils.ConfigurationProperties;
 import lv.workathome.utils.LocalDriverManager;
 import lv.workathome.utils.page_objects.CheckOut;
@@ -23,6 +25,8 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllE
 
 public class SauceDemoTest {
 
+
+    Price price;
     WebDriver driver;
     Faker faker;
     UserTakeItems userTakeItems;
@@ -35,6 +39,7 @@ public class SauceDemoTest {
     @BeforeMethod
     public void before() {
         driver = LocalDriverManager.getInstance();
+        price = new Price();
         faker = new Faker();
         checkOut = new CheckOut();
         userTakeItems = new UserTakeItems();
@@ -111,6 +116,40 @@ public class SauceDemoTest {
         Assertions.assertThat(userTakeItems.getSauceLabsOnesie().getText()).isEqualTo(SauceLabsOnesie);
         Assertions.assertThat(userTakeItems.getTheThingsTShirtRed().getText()).isEqualTo(TheThingsTShirtRed);
     }
+
+    @Test(description = "Total price ")
+    public void calculatorTotalPrice(){
+        driver.get(ConfigurationProperties.getConfiguration().getString("sauce.demo.url"));
+        userLogIn.userlogIn("standard_user", "secret_sauce");
+        wait.until(visibilityOfAllElements(saucePageWithItems.getUserSeeItems()));
+        Assertions.assertThat(saucePageWithItems.getUserSeeItems()).hasSize(6);
+        userTakeItems.TakeItems();
+        userTakeItems.ClickShoppingCard();
+        checkOut.ClickCheckOutButton();
+        Assertions.assertThat(checkOut.getCheckOutInfo().getText()).isEqualTo(CHECK_OUT_INFO);
+        checkOut.CheckOutFields();
+        checkOut.ContinueButton();
+        Assertions.assertThat(checkOut.getCheckOutInfo().getText()).isEqualTo(CHECK_OUT_WEV);
+        wait.until(visibilityOfAllElements(saucePageWithItems.getUserSeeCardItems()));
+        Assertions.assertThat(saucePageWithItems.getUserSeeCardItems()).hasSize(6);
+        Assertions.assertThat(userTakeItems.getSauceLabsBackpack().getText()).isEqualTo(SauceLabsBackpack);
+        Assertions.assertThat(userTakeItems.getSauceLabsBikeLight().getText()).isEqualTo(SauceLabsBikeLight);
+        Assertions.assertThat(userTakeItems.getSauceLabsBoltTShirt().getText()).isEqualTo(SauceLabsBoltTShirt);
+        Assertions.assertThat(userTakeItems.getSauceLabsFleeceJacket().getText()).isEqualTo(SauceLabsFleeceJacket);
+        Assertions.assertThat(userTakeItems.getSauceLabsOnesie().getText()).isEqualTo(SauceLabsOnesie);
+        Assertions.assertThat(userTakeItems.getTheThingsTShirtRed().getText()).isEqualTo(TheThingsTShirtRed);
+        Assertions.assertThat(price.getPrice1().getText()).isEqualTo(PRICE1);
+        Assertions.assertThat(price.getPrice2().getText()).isEqualTo(PRICE2);
+        Assertions.assertThat(price.getPrice3().getText()).isEqualTo(PRICE3);
+        Assertions.assertThat(price.getPrice4().getText()).isEqualTo(PRICE4);
+        Assertions.assertThat(price.getPrice5().getText()).isEqualTo(PRICE5);
+        Assertions.assertThat(price.getPrice6().getText()).isEqualTo(PRICE6);
+        Assertions.assertThat(price.getItemTotalPrice().getText()).isEqualTo(ITEM_TOTAL);
+        Assertions.assertThat(price.getItemTotalTax().getText()).isEqualTo(ITEM_TAX);
+        Assertions.assertThat(price.getItemTotalEndPrice().getText()).isEqualTo(ITEM_SUMMARY_TOTAL);
+
+    }
+      
 
     @Test(description = "User CheckOut His Items")
     public void UserCheckOutHisItems() {
@@ -204,8 +243,8 @@ public class SauceDemoTest {
         checkOut.ContinueButton();
         Assertions.assertThat(errorLocators.getErrorEmptyFields().getText()).isEqualTo(CHECK_OUT_POSTAL_CODE_FIELD);
 
-    }
 
+    }
 
 
 
